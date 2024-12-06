@@ -1,5 +1,3 @@
-// src/components/dashboard/Dashboard.jsx
-
 import React from "react";
 import { Container, Box, Typography, Card, CardContent } from "@mui/material";
 import VendasMensais from "./VendasMensais";
@@ -8,6 +6,8 @@ import VendasPorCategoria from "./VendasPorCategoria";
 import MaiorVendaCard from "./MaiorVendaCard";
 import MediaVendaCard from "./MediaVendaCard";
 import VendasPendentesCard from "./VendasPendentesCard";
+import VendasPorCategoriaPizza from "./VendasPorCategoriaPizza";
+import VendasPorCategoriaPizzaChartJS from "./VendasPorCategoriaPizzaChartJS"
 
 const Dashboard = () => {
   const spacing = 2;
@@ -42,7 +42,6 @@ const Dashboard = () => {
         <Box sx={{ minHeight: cardHeight }}>
           <VendasPendentesCard />
         </Box>
-        {/* Cartões Mockados ajustados para a mesma altura */}
 
         <Card
           sx={{ backgroundColor: "#d81b60", color: "#fff", height: cardHeight }}
@@ -78,12 +77,31 @@ const Dashboard = () => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
           gap: spacing,
+          marginBottom: spacing * 2,
         }}
       >
         <Box>
           <VendasPorClientes />
+        </Box>
+        <Box>
+          <VendasPorCategoriaPizza />
+        </Box>
+      </Box>
+
+      {/* Adicionando uma nova linha para o gráfico de pizza com ChartJS */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+          gap: spacing,
+          marginBottom: spacing * 2,
+        }}
+      >
+        <Box>
+          <VendasPorCategoriaPizzaChartJS />{" "}
+          {/* Colocando o gráfico ChartJS aqui */}
         </Box>
       </Box>
     </Container>
