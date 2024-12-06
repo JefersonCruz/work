@@ -10,7 +10,7 @@ const VendaPendentesCard = () => {
     const fetchVendasPendentes = async () => {
       try {
         const response = await dashboardService.getVendasPendentes();
-        setVendasPendentes(response[0].totalPendentes); // Assume que a média está no primeiro objeto
+        setVendasPendentes(Math.round(response[0].totalPendentes)); // Assume que a média está no primeiro objeto
         setIsLoading(false);
       } catch (error) {
         console.error("Erro ao buscar vendas pendentes:", error);
@@ -30,15 +30,14 @@ const VendaPendentesCard = () => {
   }
 
   return (
-    <Card sx={{ mb: 4, backgroundColor: "#00a65a", color: "#fff" }}>
+    <Card sx={{ mb: 4, backgroundColor: "#af53c2", color: "#fff" }}>
       <CardContent>
         <Typography variant="h8" gutterBottom>
           Vendas Pendentes
         </Typography>
         <Typography variant="h6">
           {vendasPendentes.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
+         
           })}
         </Typography>
         <Typography>Ano</Typography>

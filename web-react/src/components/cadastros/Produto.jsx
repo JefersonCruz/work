@@ -62,22 +62,21 @@ const Produto = () => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-        setFilteredProdutos(
-          produtos.filter((produto) => {
-            const categoriaMatch =
-              filterCategoriaId === "" ||
-              String(produto.categoriaId) === String(filterCategoriaId);
-            const subcategoriaMatch =
-              filterSubcategoriaId === "" ||
-              Number(produto.subcategoriaId) === Number(filterSubcategoriaId);
-            const nomeMatch = produto.nome
-              .toLowerCase()
-              .includes(filterNome.toLowerCase());
-             return categoriaMatch && subcategoriaMatch && nomeMatch;
-          })
-        );
-      }, [filterNome, filterCategoriaId, filterSubcategoriaId, produtos]);
-    
+    setFilteredProdutos(
+      produtos.filter((produto) => {
+        const categoriaMatch =
+          filterCategoriaId === "" ||
+          String(produto.categoriaId) === String(filterCategoriaId);
+        const subcategoriaMatch =
+          filterSubcategoriaId === "" ||
+          Number(produto.subcategoriaId) === Number(filterSubcategoriaId);
+        const nomeMatch = produto.nome
+          .toLowerCase()
+          .includes(filterNome.toLowerCase());
+        return categoriaMatch && subcategoriaMatch && nomeMatch;
+      })
+    );
+  }, [filterNome, filterCategoriaId, filterSubcategoriaId, produtos]);
 
   const fetchProdutos = async () => {
     try {
@@ -266,8 +265,9 @@ const Produto = () => {
                 <TableCell>{produto.nome}</TableCell>
                 <TableCell>{produto.preco.toFixed(2)}</TableCell>
                 <TableCell>
-                  {categorias.find((cat) => String(cat.id) === String(produto.categoriaId))
-                    ?.nome || "Não encontrado"}
+                  {categorias.find(
+                    (cat) => String(cat.id) === String(produto.categoriaId)
+                  )?.nome || "Não encontrado"}
                 </TableCell>
                 <TableCell>
                   {subcategorias.find(
