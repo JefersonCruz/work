@@ -1,105 +1,98 @@
-// src/components/admin/tabelas/Configuracoes.jsx
-import React, { useState, useEffect } from "react";
-import { TextField, Button, Grid, Typography } from "@mui/material";
-
-// Exemplo de dados de configuração
-const mockData = [
-  { nome: "Quadro 1", capacidade: "100A", tipo: "Monofásico" },
-  { nome: "Quadro 2", capacidade: "200A", tipo: "Bifásico" },
-];
+import React, { useState } from "react";
+import { TextField, Button, Box, Typography } from "@mui/material";
+import { QRCodeCanvas } from "qrcode.react";
+import axios from "axios";
 
 const Configuracoes = () => {
-  const [quadros, setQuadros] = useState(mockData);
-  const [novoQuadro, setNovoQuadro] = useState({ nome: "", capacidade: "", tipo: "" });
+  const [logotipo, setLogotipo] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [nomeEmpresa, setNomeEmpresa] = useState("");
+  const [contato, setContato] = useState("");
+  const [qrValue, setQrValue] = useState("");
 
-  // Função para adicionar um novo quadro
-  const adicionarQuadro = () => {
-    setQuadros([...quadros, novoQuadro]);
-    setNovoQuadro({ nome: "", capacidade: "", tipo: "" });
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setLogotipo(file);
+    setPreview(URL.createObjectURL(file)); // Gerar pré-visualização
   };
 
-  // Função para atualizar o valor de um quadro
-  const atualizarQuadro = (index, key, value) => {
-    const novosQuadros = [...quadros];
-    novosQuadros[index][key] = value;
-    setQuadros(novosQuadros);
+  const handleSave = async () => {
+    if (!logotipo || !nomeEmpresa || !contato) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    try {
+      // Enviar a imagem para o backend
+      const formData = new FormData();
+      formData.append("logotipo", logotipo);
+      formData.append("nomeEmpresa", nomeEmpresa);
+      formData.append("contato", contato);
+
+      const response = await axios.post("/api/configuracoes", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const { qrCodeUrl } = response.data;
+      setQrValue(qrCodeUrl);
+      alert("Configurações salvas com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar configurações:", error);
+      alert("Erro ao salvar configurações. Tente novamente.");
+    }
   };
 
   return (
-    <div>
+    <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        Configurações dos Quadros Elétricos
+        Configurações da Empresa
       </Typography>
-      
-      {/* Exibição e edição de quadros */}
-      <Grid container spacing={2}>
-        {quadros.map((quadro, index) => (
-          <Grid item xs={12} md={6} key={index}>
-            <TextField
-              label="Nome"
-              variant="outlined"
-              fullWidth
-              value={quadro.nome}
-              onChange={(e) => atualizarQuadro(index, "nome", e.target.value)}
-            />
-            <TextField
-              label="Capacidade"
-              variant="outlined"
-              fullWidth
-              value={quadro.capacidade}
-              onChange={(e) => atualizarQuadro(index, "capacidade", e.target.value)}
-            />
-            <TextField
-              label="Tipo"
-              variant="outlined"
-              fullWidth
-              value={quadro.tipo}
-              onChange={(e) => atualizarQuadro(index, "tipo", e.target.value)}
-            />
-          </Grid>
-        ))}
-      </Grid>
 
-      {/* Formulário para adicionar novo quadro */}
-      <Grid container spacing={2} marginTop={3}>
-        <Grid item xs={12} md={4}>
-          <TextField
-            label="Nome"
-            variant="outlined"
-            fullWidth
-            value={novoQuadro.nome}
-            onChange={(e) => setNovoQuadro({ ...novoQuadro, nome: e.target.value })}
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <TextField
-            label="Capacidade"
-            variant="outlined"
-            fullWidth
-            value={novoQuadro.capacidade}
-            onChange={(e) => setNovoQuadro({ ...novoQuadro, capacidade: e.target.value })}
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <TextField
-            label="Tipo"
-            variant="outlined"
-            fullWidth
-            value={novoQuadro.tipo}
-            onChange={(e) => setNovoQuadro({ ...novoQuadro, tipo: e.target.value })}
-          />
-        </Grid>
-      </Grid>
+      <TextField
+        fullWidth
+        label="Nome da Empresa"
+        value={nomeEmpresa}
+        onChange={(e) => setNomeEmpresa(e.target.value)}
+        sx={{ mb: 2 }}
+      />
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={adicionarQuadro}
-        sx={{ marginTop: 3 }}
-      >
-        Adicionar Quadro
+      <TextField
+        fullWidth
+        label="Contato"
+        value={contato}
+        onChange={(e) => setContato(e.target.value)}
+        sx={{ mb: 2 }}
+      />
+
+      <Box sx={{ mb: 2 }}>
+        <Button variant="contained" component="label">
+          Upload do Logotipo
+          <input type="file" hidden onChange={handleFileChange} />
+        </Button>
+        {preview && (
+          <Box mt={2}>
+            <img
+              src={preview}
+              alt="Pré-visualização do logotipo"
+              style={{ width: 200, height: "auto" }}
+            />
+          </Box>
+        )}
+      </Box>
+
+      <Button variant="contained" color="primary" onClick={handleSave}>
+        Salvar Configurações
       </Button>
-    </div>
+
+      {qrValue && (
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h6">QR Code Gerado:</Typography>
+          <QRCodeCanvas value={qrValue} size={200} />
+        </Box>
+      )}
+    </Box>
   );
 };
 

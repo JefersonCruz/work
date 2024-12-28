@@ -19,20 +19,27 @@ import InfoIcon from "@mui/icons-material/Info";
 import SettingsIcon from "@mui/icons-material/Settings";
 import BusinessIcon from "@mui/icons-material/Business";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import FireExtinguisherIcon from "@mui/icons-material/FireExtinguisher";
 import logo from "../../assets/logo.svg"; // Importando o logo
 
 const SidebarNav = () => {
   const drawerWidth = 240;
   const [openCadastros, setOpenCadastros] = useState(false);
   const [openTabelas, setOpenTabelas] = useState(false);
+  const [openEtiquetas, setOpenEtiquetas] = useState(false); // Submenu para etiquetas
 
   // Funções para alternar a visibilidade dos submenus
   const handleClickCadastros = () => {
-    setOpenCadastros(!openCadastros); // Alterna o estado de visibilidade do submenu Cadastros
+    setOpenCadastros(!openCadastros);
   };
 
   const handleClickTabelas = () => {
-    setOpenTabelas(!openTabelas); // Alterna o estado de visibilidade do submenu Tabelas
+    setOpenTabelas(!openTabelas);
+  };
+
+  const handleClickEtiquetas = () => {
+    setOpenEtiquetas(!openEtiquetas);
   };
 
   return (
@@ -75,14 +82,6 @@ const SidebarNav = () => {
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
-        </ListItem>
-
-        {/* Item de Posts */}
-        <ListItem button component={Link} to="/admin/posts">
-          <ListItemIcon>
-            <PostAddIcon />
-          </ListItemIcon>
-          <ListItemText primary="Posts" />
         </ListItem>
 
         {/* Submenu Cadastros */}
@@ -149,6 +148,37 @@ const SidebarNav = () => {
                 <InventoryIcon />
               </ListItemIcon>
               <ListItemText primary="Informações Adicionais" />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        {/* Submenu Etiquetas */}
+        <ListItem button onClick={handleClickEtiquetas}>
+          <ListItemIcon>
+            <InsertDriveFileIcon />
+          </ListItemIcon>
+          <ListItemText primary="Etiquetas" />
+          {openEtiquetas ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openEtiquetas} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button component={Link} to="/admin/etiquetas/etiqueta-quadro" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <ConstructionIcon />
+              </ListItemIcon>
+              <ListItemText primary="Quadros de Distribuição" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/etiquetas/etiqueta-arcondicionado" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Ar Condicionado" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/etiquetas/etiqueta-alarme-incendio" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <FireExtinguisherIcon />
+              </ListItemIcon>
+              <ListItemText primary="Alarmes de Incêndio" />
             </ListItem>
           </List>
         </Collapse>

@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@media print {
+    body {
+      -webkit-print-color-adjust: exact; /* Mantém as cores na impressão */
+      margin: 0;
+      padding: 0;
+      background: white;
+    }
+  
+    .print-container {
+      page-break-after: auto;
+      page-break-before: auto;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+  
+    .no-print {
+      display: none;
+    }
+  }
+  
