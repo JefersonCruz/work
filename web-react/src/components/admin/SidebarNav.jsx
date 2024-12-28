@@ -16,14 +16,23 @@ import CategoryIcon from "@mui/icons-material/Category";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import InfoIcon from "@mui/icons-material/Info";
+import SettingsIcon from "@mui/icons-material/Settings";
+import BusinessIcon from "@mui/icons-material/Business";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import logo from "../../assets/logo.svg"; // Importando o logo
 
 const SidebarNav = () => {
   const drawerWidth = 240;
   const [openCadastros, setOpenCadastros] = useState(false);
+  const [openTabelas, setOpenTabelas] = useState(false);
 
+  // Funções para alternar a visibilidade dos submenus
   const handleClickCadastros = () => {
-    setOpenCadastros(!openCadastros);
+    setOpenCadastros(!openCadastros); // Alterna o estado de visibilidade do submenu Cadastros
+  };
+
+  const handleClickTabelas = () => {
+    setOpenTabelas(!openTabelas); // Alterna o estado de visibilidade do submenu Tabelas
   };
 
   return (
@@ -51,26 +60,32 @@ const SidebarNav = () => {
       >
         <img
           src={logo}
-          alt="Logo Pet Shop"
+          alt="Logo"
           style={{ width: 40, height: 40, marginRight: 10 }}
         />
         <Typography variant="h6" noWrap>
           Pet Shop
         </Typography>
       </Box>
+
       <List>
+        {/* Item de Dashboard */}
         <ListItem button component={Link} to="/admin/dashboard">
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
+
+        {/* Item de Posts */}
         <ListItem button component={Link} to="/admin/posts">
           <ListItemIcon>
             <PostAddIcon />
           </ListItemIcon>
           <ListItemText primary="Posts" />
         </ListItem>
+
+        {/* Submenu Cadastros */}
         <ListItem button onClick={handleClickCadastros}>
           <ListItemIcon>
             <CategoryIcon />
@@ -80,34 +95,19 @@ const SidebarNav = () => {
         </ListItem>
         <Collapse in={openCadastros} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem
-              button
-              component={Link}
-              to="/admin/cadastros/categoria"
-              sx={{ pl: 4 }}
-            >
+            <ListItem button component={Link} to="/admin/cadastros/categoria" sx={{ pl: 4 }}>
               <ListItemIcon>
                 <CategoryIcon />
               </ListItemIcon>
               <ListItemText primary="Categoria" />
             </ListItem>
-            <ListItem
-              button
-              component={Link}
-              to="/admin/cadastros/subcategoria"
-              sx={{ pl: 4 }}
-            >
+            <ListItem button component={Link} to="/admin/cadastros/subcategoria" sx={{ pl: 4 }}>
               <ListItemIcon>
                 <InventoryIcon />
               </ListItemIcon>
               <ListItemText primary="SubCategoria" />
             </ListItem>
-            <ListItem
-              button
-              component={Link}
-              to="/admin/cadastros/produto"
-              sx={{ pl: 4 }}
-            >
+            <ListItem button component={Link} to="/admin/cadastros/produto" sx={{ pl: 4 }}>
               <ListItemIcon>
                 <ShoppingCartIcon />
               </ListItemIcon>
@@ -115,6 +115,45 @@ const SidebarNav = () => {
             </ListItem>
           </List>
         </Collapse>
+
+        {/* Submenu Tabelas */}
+        <ListItem button onClick={handleClickTabelas}>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tabelas" />
+          {openTabelas ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openTabelas} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button component={Link} to="/admin/tabelas/configuracoes" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <BusinessIcon />
+              </ListItemIcon>
+              <ListItemText primary="Configurações" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/tabelas/modelos" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <InsertDriveFileIcon />
+              </ListItemIcon>
+              <ListItemText primary="Modelos de Tabela" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/tabelas/tipos-quadro" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Tipos de Quadro" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/tabelas/informacoes" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <InventoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Informações Adicionais" />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        {/* Item Sobre */}
         <ListItem button component={Link} to="/admin/sobre">
           <ListItemIcon>
             <InfoIcon />
