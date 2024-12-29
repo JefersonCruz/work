@@ -12,28 +12,21 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import CategoryIcon from "@mui/icons-material/Category";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import InfoIcon from "@mui/icons-material/Info";
-import SettingsIcon from "@mui/icons-material/Settings";
 import BusinessIcon from "@mui/icons-material/Business";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import FireExtinguisherIcon from "@mui/icons-material/FireExtinguisher";
+import InfoIcon from "@mui/icons-material/Info";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ListAltIcon from "@mui/icons-material/ListAlt"; // Ícone para gerenciamento de etiquetas
 import logo from "../../assets/logo.svg"; // Importando o logo
 
 const SidebarNav = () => {
   const drawerWidth = 240;
-  const [openCadastros, setOpenCadastros] = useState(false);
   const [openTabelas, setOpenTabelas] = useState(false);
   const [openEtiquetas, setOpenEtiquetas] = useState(false); // Submenu para etiquetas
 
   // Funções para alternar a visibilidade dos submenus
-  const handleClickCadastros = () => {
-    setOpenCadastros(!openCadastros);
-  };
-
   const handleClickTabelas = () => {
     setOpenTabelas(!openTabelas);
   };
@@ -71,7 +64,7 @@ const SidebarNav = () => {
           style={{ width: 40, height: 40, marginRight: 10 }}
         />
         <Typography variant="h6" noWrap>
-          Pet Shop
+          Gerenciador
         </Typography>
       </Box>
 
@@ -83,37 +76,6 @@ const SidebarNav = () => {
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-
-        {/* Submenu Cadastros */}
-        <ListItem button onClick={handleClickCadastros}>
-          <ListItemIcon>
-            <CategoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="Cadastros" />
-          {openCadastros ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={openCadastros} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem button component={Link} to="/admin/cadastros/categoria" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <CategoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Categoria" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/cadastros/subcategoria" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <InventoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="SubCategoria" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/cadastros/produto" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Produto" />
-            </ListItem>
-          </List>
-        </Collapse>
 
         {/* Submenu Tabelas */}
         <ListItem button onClick={handleClickTabelas}>
@@ -127,7 +89,7 @@ const SidebarNav = () => {
           <List component="div" disablePadding>
             <ListItem button component={Link} to="/admin/tabelas/configuracoes" sx={{ pl: 4 }}>
               <ListItemIcon>
-                <BusinessIcon />
+                <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Configurações" />
             </ListItem>
@@ -136,18 +98,6 @@ const SidebarNav = () => {
                 <InsertDriveFileIcon />
               </ListItemIcon>
               <ListItemText primary="Modelos de Tabela" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/tabelas/tipos-quadro" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <CategoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Tipos de Quadro" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/tabelas/informacoes" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <InventoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Informações Adicionais" />
             </ListItem>
           </List>
         </Collapse>
@@ -170,7 +120,7 @@ const SidebarNav = () => {
             </ListItem>
             <ListItem button component={Link} to="/admin/etiquetas/etiqueta-arcondicionado" sx={{ pl: 4 }}>
               <ListItemIcon>
-                <CategoryIcon />
+                <ConstructionIcon />
               </ListItemIcon>
               <ListItemText primary="Ar Condicionado" />
             </ListItem>
@@ -180,8 +130,36 @@ const SidebarNav = () => {
               </ListItemIcon>
               <ListItemText primary="Alarmes de Incêndio" />
             </ListItem>
+            <ListItem button component={Link} to="/admin/etiquetas/etiquetas-predios" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <InsertDriveFileIcon />
+              </ListItemIcon>
+              <ListItemText primary="Etiquetas para Prédios" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/etiquetas/gerenciamento" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <ListAltIcon />
+              </ListItemIcon>
+              <ListItemText primary="Gerenciamento de Etiquetas" />
+            </ListItem>
           </List>
         </Collapse>
+
+        {/* Cadastro de Empresas */}
+        <ListItem button component={Link} to="/admin/cadastro/empresas">
+          <ListItemIcon>
+            <BusinessIcon />
+          </ListItemIcon>
+          <ListItemText primary="Cadastro de Empresas" />
+        </ListItem>
+
+        {/* Cadastro de Clientes */}
+        <ListItem button component={Link} to="/admin/cadastro/clientes">
+          <ListItemIcon>
+            <BusinessIcon />
+          </ListItemIcon>
+          <ListItemText primary="Cadastro de Clientes" />
+        </ListItem>
 
         {/* Item Sobre */}
         <ListItem button component={Link} to="/admin/sobre">
