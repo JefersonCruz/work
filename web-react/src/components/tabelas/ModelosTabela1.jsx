@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import {
   Box,
   Typography,
@@ -11,11 +11,6 @@ import {
   Paper,
   Avatar,
   Button,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
 } from "@mui/material";
 import { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
@@ -23,31 +18,6 @@ import jsPDF from "jspdf";
 
 const ModelosTabela = () => {
   const printRef = useRef(null);
-  const [dadosEmpresa, setDadosEmpresa] = useState({
-    nome: "Empresa Exemplo",
-    contato: "(00) 00000-0000",
-    email: "contato@exemplo.com",
-    qrCodeLink: "https://empresa.com",
-    suporteTelefone: "(11) 12345-6789",
-    suporteEmail: "suporte@exemplo.com",
-    logotipo: "https://via.placeholder.com/80",
-    endereco: "Bloco A, Apartamento 101, Primeiro Andar",
-  });
-
-  const [circuitos, setCircuitos] = useState(
-    Array.from({ length: 24 }, (_, index) => ({
-      nome: `Circuito ${index + 1}`,
-      tensao: "127V",
-      corrente: "10A",
-      descricao: `Descrição do circuito ${index + 1}`,
-    }))
-  );
-
-  const [layoutConfig, setLayoutConfig] = useState({
-    corCabecalho: "#0288d1",
-    tamanhoQRCode: 70,
-    bordaTabela: true,
-  });
 
   const handlePrint = () => {
     const element = printRef.current;
@@ -68,50 +38,26 @@ const ModelosTabela = () => {
     }
   };
 
-  const handleChangeConfig = (key, value) => {
-    setLayoutConfig((prev) => ({ ...prev, [key]: value }));
+  const dadosEmpresa = {
+    nome: "Empresa Exemplo",
+    contato: "(00) 00000-0000",
+    email: "contato@exemplo.com",
+    qrCodeLink: "https://empresa.com",
+    suporteTelefone: "(11) 12345-6789",
+    suporteEmail: "suporte@exemplo.com",
+    logotipo: "https://via.placeholder.com/80",
+    endereco: "Bloco A, Apartamento 101, Primeiro Andar",
   };
+
+  const circuitos = Array.from({ length: 24 }, (_, index) => ({
+    nome: `Circuito ${index + 1}`,
+    tensao: "127V",
+    corrente: "10A",
+    descricao: `Descrição do circuito ${index + 1}`,
+  }));
 
   return (
     <Box sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
-      {/* Configuração Personalizada */}
-      <Paper sx={{ padding: 2, marginBottom: 2 }}>
-        <Typography variant="h6" gutterBottom>
-          Configuração Personalizada
-        </Typography>
-        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-          <FormControl fullWidth>
-            <InputLabel>Cor do Cabeçalho</InputLabel>
-            <Select
-              value={layoutConfig.corCabecalho}
-              onChange={(e) => handleChangeConfig("corCabecalho", e.target.value)}
-            >
-              <MenuItem value="#0288d1">Azul</MenuItem>
-              <MenuItem value="#4caf50">Verde</MenuItem>
-              <MenuItem value="#f44336">Vermelho</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            label="Tamanho do QR Code"
-            type="number"
-            value={layoutConfig.tamanhoQRCode}
-            onChange={(e) => handleChangeConfig("tamanhoQRCode", e.target.value)}
-            fullWidth
-          />
-          <FormControl fullWidth>
-            <InputLabel>Borda da Tabela</InputLabel>
-            <Select
-              value={layoutConfig.bordaTabela}
-              onChange={(e) => handleChangeConfig("bordaTabela", e.target.value === "true")}
-            >
-              <MenuItem value={"true"}>Sim</MenuItem>
-              <MenuItem value={"false"}>Não</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-      </Paper>
-
-      {/* Tabela para impressão */}
       <TableContainer
         component={Paper}
         ref={printRef}
@@ -125,20 +71,16 @@ const ModelosTabela = () => {
           backgroundColor: "#ffffff",
         }}
       >
-        <Table sx={{ tableLayout: "auto", border: layoutConfig.bordaTabela ? "1px solid #ccc" : "none" }}>
+        <Table sx={{ tableLayout: "auto" }}>
           <TableBody>
             <TableRow>
-              <TableCell
-                colSpan={2}
-                align="center"
-                sx={{ background: "#e3f2fd", padding: 2, borderRadius: "15px 15px 0 0" }}
-              >
+              <TableCell colSpan={2} align="center" sx={{ background: "#e3f2fd", padding: 2, borderRadius: "15px 15px 0 0" }}>
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    backgroundColor: layoutConfig.corCabecalho,
+                    backgroundColor: "#0288d1",
                     borderRadius: "15px",
                     padding: 2,
                     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
@@ -163,7 +105,7 @@ const ModelosTabela = () => {
                 <TableContainer component={Paper} sx={{ borderRadius: "10px", overflow: "hidden" }}>
                   <Table size="small" sx={{ tableLayout: "fixed", borderCollapse: "collapse" }}>
                     <TableHead>
-                      <TableRow sx={{ backgroundColor: layoutConfig.corCabecalho }}>
+                      <TableRow sx={{ backgroundColor: "#0288d1" }}>
                         <TableCell sx={{ color: "white", fontWeight: "bold", textAlign: "center" }}>
                           Nome
                         </TableCell>
@@ -197,7 +139,7 @@ const ModelosTabela = () => {
                 <Typography variant="body2" sx={{ marginBottom: 1, fontWeight: "bold" }}>
                   <strong>Informações do Quadro:</strong> {dadosEmpresa.endereco || "Endereço não informado"}
                 </Typography>
-                <QRCodeCanvas value={dadosEmpresa.qrCodeLink || "https://empresa.com"} size={layoutConfig.tamanhoQRCode} />
+                <QRCodeCanvas value={dadosEmpresa.qrCodeLink || "https://empresa.com"} size={70} />
                 <Typography variant="body2">
                   Escaneie o QR Code para acessar a planta elétrica e documentação técnica.
                 </Typography>

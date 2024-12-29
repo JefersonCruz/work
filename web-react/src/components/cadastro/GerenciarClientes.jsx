@@ -9,34 +9,42 @@ import {
   List,
   ListItem,
   ListItemText,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 
-const CadastroClientes = () => {
+const GerenciarClientes = () => {
   const [cliente, setCliente] = useState({
     nome: "",
     telefone: "",
     email: "",
     endereco: "",
+    tipoCliente: "",
     bloco: "",
     apartamento: "",
   });
 
-  const [clientes, setClientes] = useState([]); // Lista de clientes
+  const [clientes, setClientes] = useState([]);
+  const [filtroTipo, setFiltroTipo] = useState("");
 
-  // Função para manipular mudanças nos inputs
+  // Manipulação de input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCliente({ ...cliente, [name]: value });
   };
 
-  // Função para cadastrar cliente
+  // Submeter cliente
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (
       !cliente.nome ||
       !cliente.telefone ||
       !cliente.email ||
       !cliente.endereco ||
+      !cliente.tipoCliente ||
       !cliente.bloco ||
       !cliente.apartamento
     ) {
@@ -50,45 +58,31 @@ const CadastroClientes = () => {
       telefone: "",
       email: "",
       endereco: "",
+      tipoCliente: "",
       bloco: "",
       apartamento: "",
     });
     alert("Cliente cadastrado com sucesso!");
   };
 
-  // Função para importar contatos da agenda (Web API)
-  const handleImportFromContacts = async () => {
-    if (!("contacts" in navigator && "ContactsManager" in window)) {
-      alert("Seu navegador não suporta a API de Contatos.");
-      return;
-    }
-
-    try {
-      const props = ["name", "email", "tel"]; // Propriedades a serem buscadas
-      const opts = { multiple: true }; // Permitir múltiplos contatos
-
-      const contacts = await navigator.contacts.select(props, opts);
-      if (contacts.length > 0) {
-        const contact = contacts[0]; // Usar o primeiro contato selecionado
-        setCliente((prev) => ({
-          ...prev,
-          nome: contact.name ? contact.name[0] : "",
-          telefone: contact.tel ? contact.tel[0] : "",
-          email: contact.email ? contact.email[0] : "",
-        }));
-      }
-    } catch (error) {
-      console.error("Erro ao acessar contatos:", error);
-      alert("Ocorreu um erro ao acessar seus contatos.");
-    }
+  // Filtrar clientes por tipo
+  const handleFiltrarClientes = () => {
+    return filtroTipo
+      ? clientes.filter((cliente) => cliente.tipoCliente === filtroTipo)
+      : clientes;
   };
 
   return (
     <Box sx={{ padding: 3 }}>
       <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: 3 }}>
-        Cadastro de Clientes
+        Gerenciar Clientes
       </Typography>
+
+      {/* Cadastro de Cliente */}
       <Paper sx={{ padding: 3, marginBottom: 3 }}>
+        <Typography variant="h5" sx={{ marginBottom: 2 }}>
+          Cadastro de Cliente
+        </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
@@ -153,15 +147,26 @@ const CadastroClientes = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button
-                type="button"
-                variant="outlined"
-                color="secondary"
-                onClick={handleImportFromContacts}
-                sx={{ marginRight: 2 }}
-              >
-                Importar Contato
-              </Button>
+              <FormControl fullWidth required>
+                <InputLabel>Tipo de Cliente</InputLabel>
+                <Select
+                  name="tipoCliente"
+                  value={cliente.tipoCliente}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="Etiqueta de Ar Condicionado">
+                    Etiqueta de Ar Condicionado
+                  </MenuItem>
+                  <MenuItem value="Etiqueta de Quadro de Energia">
+                    Etiqueta de Quadro de Energia
+                  </MenuItem>
+                  <MenuItem value="Etiqueta de Alarme de Incêndio">
+                    Etiqueta de Alarme de Incêndio
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
               <Button type="submit" variant="contained" color="primary">
                 Cadastrar Cliente
               </Button>
@@ -170,26 +175,49 @@ const CadastroClientes = () => {
         </form>
       </Paper>
 
+      {/* Filtro de Clientes */}
+      <Box sx={{ marginBottom: 3 }}>
+        <Typography variant="h5" sx={{ marginBottom: 2 }}>
+          Filtrar Clientes
+        </Typography>
+        <FormControl fullWidth>
+          <InputLabel>Tipo de Cliente</InputLabel>
+          <Select
+            value={filtroTipo}
+            onChange={(e) => setFiltroTipo(e.target.value)}
+          >
+            <MenuItem value="">Todos</MenuItem>
+            <MenuItem value="Etiqueta de Ar Condicionado">
+              Etiqueta de Ar Condicionado
+            </MenuItem>
+            <MenuItem value="Etiqueta de Quadro de Energia">
+              Etiqueta de Quadro de Energia
+            </MenuItem>
+            <MenuItem value="Etiqueta de Alarme de Incêndio">
+              Etiqueta de Alarme de Incêndio
+            </MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
       {/* Listagem de Clientes */}
-      {clientes.length > 0 && (
-        <Box>
-          <Typography variant="h5" sx={{ marginBottom: 2 }}>
-            Clientes Cadastrados
-          </Typography>
-          <List>
-            {clientes.map((c, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={`${c.nome} - Bloco: ${c.bloco}, Apartamento: ${c.apartamento}`}
-                  secondary={`${c.telefone} | ${c.email}`}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      )}
+      <Box>
+        <Typography variant="h5" sx={{ marginBottom: 2 }}>
+          Clientes Cadastrados
+        </Typography>
+        <List>
+          {handleFiltrarClientes().map((c, index) => (
+            <ListItem key={index}>
+              <ListItemText
+                primary={`${c.nome} - ${c.tipoCliente}`}
+                secondary={`Bloco: ${c.bloco}, Apartamento: ${c.apartamento} | ${c.telefone} | ${c.email}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Box>
   );
 };
 
-export default CadastroClientes;
+export default GerenciarClientes;

@@ -23,7 +23,7 @@ const GeradorEtiquetas = () => {
           <p>Amperagem: {modeloSelecionado.amperagem}</p>
         </div>
       )}
-      <BibliotecaModelos onImportar={handleImportarModelo} />
+      <BlibliotecaModelos onImportar={handleImportarModelo} />
     </div>
   );
 };

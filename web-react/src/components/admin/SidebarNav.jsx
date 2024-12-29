@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PostAddIcon from "@mui/icons-material/PostAdd";
 import BusinessIcon from "@mui/icons-material/Business";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import ConstructionIcon from "@mui/icons-material/Construction";
@@ -19,12 +18,15 @@ import FireExtinguisherIcon from "@mui/icons-material/FireExtinguisher";
 import InfoIcon from "@mui/icons-material/Info";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ListAltIcon from "@mui/icons-material/ListAlt"; // Ícone para gerenciamento de etiquetas
+import AddBoxIcon from "@mui/icons-material/AddBox"; // Ícone para Gerador de Etiquetas
+import TableChartIcon from "@mui/icons-material/TableChart"; // Ícone para Editable Table
+import CircuitryIcon from "@mui/icons-material/ElectricalServices"; // Ícone para Circuit Config
 import logo from "../../assets/logo.svg"; // Importando o logo
 
 const SidebarNav = () => {
   const drawerWidth = 240;
   const [openTabelas, setOpenTabelas] = useState(false);
-  const [openEtiquetas, setOpenEtiquetas] = useState(false); // Submenu para etiquetas
+  const [openEtiquetas, setOpenEtiquetas] = useState(false);
 
   // Funções para alternar a visibilidade dos submenus
   const handleClickTabelas = () => {
@@ -64,12 +66,12 @@ const SidebarNav = () => {
           style={{ width: 40, height: 40, marginRight: 10 }}
         />
         <Typography variant="h6" noWrap>
-          Gerenciador
+          Sistema de Etiquetas
         </Typography>
       </Box>
 
       <List>
-        {/* Item de Dashboard */}
+        {/* Dashboard */}
         <ListItem button component={Link} to="/admin/dashboard">
           <ListItemIcon>
             <DashboardIcon />
@@ -98,6 +100,18 @@ const SidebarNav = () => {
                 <InsertDriveFileIcon />
               </ListItemIcon>
               <ListItemText primary="Modelos de Tabela" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/tabelas/editable-table" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <TableChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Editable Table" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/tabelas/circuit-config" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <CircuitryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Circuit Config" />
             </ListItem>
           </List>
         </Collapse>
@@ -142,6 +156,12 @@ const SidebarNav = () => {
               </ListItemIcon>
               <ListItemText primary="Gerenciamento de Etiquetas" />
             </ListItem>
+            <ListItem button component={Link} to="/admin/etiquetas/gerador-etiquetas" sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <AddBoxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Gerador de Etiquetas" />
+            </ListItem>
           </List>
         </Collapse>
 
@@ -161,7 +181,15 @@ const SidebarNav = () => {
           <ListItemText primary="Cadastro de Clientes" />
         </ListItem>
 
-        {/* Item Sobre */}
+        {/* Gerenciamento de Clientes */}
+        <ListItem button component={Link} to="/admin/cadastro/gerenciar-clientes">
+          <ListItemIcon>
+            <BusinessIcon />
+          </ListItemIcon>
+          <ListItemText primary="Gerenciar Clientes" />
+        </ListItem>
+
+        {/* Sobre */}
         <ListItem button component={Link} to="/admin/sobre">
           <ListItemIcon>
             <InfoIcon />

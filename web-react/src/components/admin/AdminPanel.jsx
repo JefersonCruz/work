@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import Header from "./Header";
 import Footer from "./Footer";
 import SidebarNav from "./SidebarNav";
+
+// Importações de Componentes
 import Categoria from "../cadastros/Categoria";
 import SubCategoria from "../cadastros/SubCategoria";
 import Produto from "../cadastros/Produto";
@@ -21,8 +23,12 @@ import CadastroEmpresas from "../cadastro/CadastroEmpresas";
 import CadastroClientes from "../cadastro/CadastroClientes";
 import EtiquetasPredios from "../etiquetas/EtiquetasPredios";
 import GerenciamentoEtiquetas from "../etiquetas/GerenciamentoEtiquetas";
-import GeradorEtiquetas from "../etiquetas/GeradorEtiquetas"; // Nova importação
-import ModeloEtiquetas from "../etiquetas/ModeloEtiquetas"; // Nova importação
+import GeradorEtiquetas from "../etiquetas/GeradorEtiquetas"; // Nova rota
+import ModeloEtiquetas from "../etiquetas/ModeloEtiquetas"; // Nova rota
+import GerenciarClientes from "../cadastro/GerenciarClientes";
+import EditableTable from "../tabelas/EditableTable"; // Nova rota
+import CircuitConfig from "../tabelas/CircuitConfig"; // Nova rota
+import QRCodeGenerator from "../tabelas/QRCodeGenerator"; // Nova rota
 
 const AdminPanel = () => {
   return (
@@ -32,7 +38,7 @@ const AdminPanel = () => {
         <SidebarNav />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Routes>
-            {/* Redireciona a rota base para o Dashboard */}
+            {/* Rota base para o Dashboard */}
             <Route path="/" element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="posts" element={<PostsList />} />
@@ -43,12 +49,16 @@ const AdminPanel = () => {
             <Route path="cadastros/produto" element={<Produto />} />
             <Route path="cadastro/empresas" element={<CadastroEmpresas />} />
             <Route path="cadastro/clientes" element={<CadastroClientes />} />
+            <Route path="cadastro/gerenciar-clientes" element={<GerenciarClientes />} />
 
             {/* Rotas para Tabelas */}
             <Route path="tabelas/configuracoes" element={<Configuracoes />} />
             <Route path="tabelas/modelos" element={<ModelosTabela />} />
             <Route path="tabelas/tipos-quadro" element={<TiposQuadros />} />
             <Route path="tabelas/informacoes" element={<InformacoesAdicionais />} />
+            <Route path="tabelas/editable-table" element={<EditableTable />} /> {/* Nova rota */}
+            <Route path="tabelas/circuit-config" element={<CircuitConfig />} /> {/* Nova rota */}
+            <Route path="tabelas/qr-code-generator" element={<QRCodeGenerator />} /> {/* Nova rota */}
 
             {/* Rotas para Etiquetas */}
             <Route path="etiquetas/etiqueta-alarme-incendio" element={<EtiquetaAlarmeIncendio />} />
@@ -56,8 +66,8 @@ const AdminPanel = () => {
             <Route path="etiquetas/etiqueta-quadro" element={<EtiquetaQuadro />} />
             <Route path="etiquetas/etiquetas-predios" element={<EtiquetasPredios />} />
             <Route path="etiquetas/gerenciamento" element={<GerenciamentoEtiquetas />} />
-            <Route path="etiquetas/gerador" element={<GeradorEtiquetas />} /> {/* Nova rota */}
-            <Route path="etiquetas/modelos" element={<ModeloEtiquetas />} /> {/* Nova rota */}
+            <Route path="etiquetas/gerador-etiquetas" element={<GeradorEtiquetas />} />
+            <Route path="etiquetas/modelos" element={<ModeloEtiquetas />} />
 
             {/* Página Sobre */}
             <Route path="sobre" element={<Sobre />} />
