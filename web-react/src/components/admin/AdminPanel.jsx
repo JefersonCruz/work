@@ -4,8 +4,9 @@ import Box from "@mui/material/Box";
 import Header from "./Header";
 import Footer from "./Footer";
 import SidebarNav from "./SidebarNav";
+import ChatSupportPage from "../chat/ChatSupportPage";
 
-// Importações de Componentes
+// Importação direta dos componentes
 import Categoria from "../cadastros/Categoria";
 import SubCategoria from "../cadastros/SubCategoria";
 import Produto from "../cadastros/Produto";
@@ -23,12 +24,17 @@ import CadastroEmpresas from "../cadastro/CadastroEmpresas";
 import CadastroClientes from "../cadastro/CadastroClientes";
 import EtiquetasPredios from "../etiquetas/EtiquetasPredios";
 import GerenciamentoEtiquetas from "../etiquetas/GerenciamentoEtiquetas";
-import GeradorEtiquetas from "../etiquetas/GeradorEtiquetas"; // Nova rota
-import ModeloEtiquetas from "../etiquetas/ModeloEtiquetas"; // Nova rota
+import GeradorEtiquetas from "../etiquetas/GeradorEtiquetas";
+import ModeloEtiquetas from "../etiquetas/ModeloEtiquetas";
 import GerenciarClientes from "../cadastro/GerenciarClientes";
-import EditableTable from "../tabelas/EditableTable"; // Nova rota
-import CircuitConfig from "../tabelas/CircuitConfig"; // Nova rota
-import QRCodeGenerator from "../tabelas/QRCodeGenerator"; // Nova rota
+import EditableTable from "../tabelas/EditableTable";
+import CircuitConfig from "../tabelas/CircuitConfig";
+import QRCodeGenerator from "../tabelas/QRCodeGenerator";
+import LabelCustomizationTools from "../customization/LabelCustomizationTools";
+import ConfigPanel from "../admin/ConfigPanel";
+import IconSelector from "../icone/IconSelector";
+import IconConfigurator from "../icone/IconConfigurator";
+import CardConfigurator from "../cards/CardConfigurator";
 
 const AdminPanel = () => {
   return (
@@ -56,9 +62,20 @@ const AdminPanel = () => {
             <Route path="tabelas/modelos" element={<ModelosTabela />} />
             <Route path="tabelas/tipos-quadro" element={<TiposQuadros />} />
             <Route path="tabelas/informacoes" element={<InformacoesAdicionais />} />
-            <Route path="tabelas/editable-table" element={<EditableTable />} /> {/* Nova rota */}
-            <Route path="tabelas/circuit-config" element={<CircuitConfig />} /> {/* Nova rota */}
-            <Route path="tabelas/qr-code-generator" element={<QRCodeGenerator />} /> {/* Nova rota */}
+            <Route path="tabelas/editable-table" element={<EditableTable />} />
+            <Route path="tabelas/circuit-config" element={<CircuitConfig />} />
+            <Route path="tabelas/qr-code-generator" element={<QRCodeGenerator />} />
+
+            {/* Rotas para Personalização */}
+            <Route path="customization/label-tools" element={<LabelCustomizationTools />} />
+
+            {/* Rotas para Icones e Configuração */}
+            <Route path="icone/quadro-distribuicao" element={<IconSelector />} />
+            <Route path="icone/configuracao" element={<IconConfigurator />} />
+            <Route path="cards/configurator" element={<CardConfigurator />} /> {/* Nova rota */}
+
+            {/* Rotas para Configurações Administrativas */}
+            <Route path="config-panel" element={<ConfigPanel />} />
 
             {/* Rotas para Etiquetas */}
             <Route path="etiquetas/etiqueta-alarme-incendio" element={<EtiquetaAlarmeIncendio />} />
@@ -69,11 +86,16 @@ const AdminPanel = () => {
             <Route path="etiquetas/gerador-etiquetas" element={<GeradorEtiquetas />} />
             <Route path="etiquetas/modelos" element={<ModeloEtiquetas />} />
 
+            {/* Página do Chat de Suporte */}
+            <Route path="chat-suporte" element={<ChatSupportPage />} />
+
             {/* Página Sobre */}
             <Route path="sobre" element={<Sobre />} />
           </Routes>
         </Box>
       </Box>
+      {/* Componente de Suporte Flutuante */}
+      <ChatSupportPage style={{ position: "fixed", bottom: "20px", right: "20px", zIndex: 1000 }} />
       <Footer />
     </Box>
   );

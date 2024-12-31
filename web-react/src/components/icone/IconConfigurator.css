@@ -1,0 +1,52 @@
+.configurator {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    background-color: #f7f7f7;
+  }
+  
+  .workspace {
+    flex: 3;
+    padding: 20px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(1.8cm, 1fr));
+    gap: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .icon-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: white;
+    font-size: 14px;
+  }
+  
+  .icon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .icon-item input,
+  .icon-item select {
+    flex: 1;
+  }
+  
+  .icon-item button {
+    margin-left: 10px;
+  }
+  

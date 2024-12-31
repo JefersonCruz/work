@@ -1,54 +1,54 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Collapse from "@mui/material/Collapse";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import BusinessIcon from "@mui/icons-material/Business";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import FireExtinguisherIcon from "@mui/icons-material/FireExtinguisher";
-import InfoIcon from "@mui/icons-material/Info";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ListAltIcon from "@mui/icons-material/ListAlt"; // Ícone para gerenciamento de etiquetas
-import AddBoxIcon from "@mui/icons-material/AddBox"; // Ícone para Gerador de Etiquetas
-import TableChartIcon from "@mui/icons-material/TableChart"; // Ícone para Editable Table
-import CircuitryIcon from "@mui/icons-material/ElectricalServices"; // Ícone para Circuit Config
-import logo from "../../assets/logo.svg"; // Importando o logo
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Collapse,
+  Box,
+  Typography,
+  Divider,
+} from "@mui/material";
+import {
+  Dashboard as DashboardIcon,
+  Business as BusinessIcon,
+  Settings as SettingsIcon,
+  TableChart as TableChartIcon,
+  Build as BuildIcon,
+  Palette as PaletteIcon,
+  Chat as ChatIcon,
+  ExpandLess,
+  ExpandMore,
+} from "@mui/icons-material";
+import logo from "../../assets/logo.svg";
 
 const SidebarNav = () => {
-  const drawerWidth = 240;
-  const [openTabelas, setOpenTabelas] = useState(false);
-  const [openEtiquetas, setOpenEtiquetas] = useState(false);
+  const [openCategories, setOpenCategories] = useState({
+    gerenciamento: false,
+    tabelas: false,
+    etiquetas: false,
+    personalizacao: false,
+  });
 
-  // Funções para alternar a visibilidade dos submenus
-  const handleClickTabelas = () => {
-    setOpenTabelas(!openTabelas);
-  };
-
-  const handleClickEtiquetas = () => {
-    setOpenEtiquetas(!openEtiquetas);
+  const handleToggle = (category) => {
+    setOpenCategories({ ...openCategories, [category]: !openCategories[category] });
   };
 
   return (
     <Drawer
       variant="permanent"
       sx={{
-        width: drawerWidth,
+        width: 240,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          width: drawerWidth,
+          width: 240,
           boxSizing: "border-box",
         },
       }}
     >
+      {/* Header do Menu */}
       <Box
         sx={{
           display: "flex",
@@ -60,11 +60,7 @@ const SidebarNav = () => {
           color: "white",
         }}
       >
-        <img
-          src={logo}
-          alt="Logo"
-          style={{ width: 40, height: 40, marginRight: 10 }}
-        />
+        <img src={logo} alt="Logo" style={{ width: 40, height: 40, marginRight: 10 }} />
         <Typography variant="h6" noWrap>
           Sistema de Etiquetas
         </Typography>
@@ -79,122 +75,99 @@ const SidebarNav = () => {
           <ListItemText primary="Dashboard" />
         </ListItem>
 
-        {/* Submenu Tabelas */}
-        <ListItem button onClick={handleClickTabelas}>
+        {/* Gerenciamento */}
+        <ListItem button onClick={() => handleToggle("gerenciamento")}>
           <ListItemIcon>
-            <SettingsIcon />
+            <BusinessIcon />
+          </ListItemIcon>
+          <ListItemText primary="Gerenciamento" />
+          {openCategories.gerenciamento ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openCategories.gerenciamento} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button component={Link} to="/admin/cadastro/clientes" sx={{ pl: 4 }}>
+              <ListItemText primary="Clientes" />
+            </ListItem>
+            <ListItem button component={Link} to="/admin/cadastro/empresas" sx={{ pl: 4 }}>
+              <ListItemText primary="Empresas" />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        {/* Tabelas */}
+        <ListItem button onClick={() => handleToggle("tabelas")}>
+          <ListItemIcon>
+            <TableChartIcon />
           </ListItemIcon>
           <ListItemText primary="Tabelas" />
-          {openTabelas ? <ExpandLess /> : <ExpandMore />}
+          {openCategories.tabelas ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={openTabelas} timeout="auto" unmountOnExit>
+        <Collapse in={openCategories.tabelas} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button component={Link} to="/admin/tabelas/configuracoes" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Configurações" />
-            </ListItem>
             <ListItem button component={Link} to="/admin/tabelas/modelos" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <InsertDriveFileIcon />
-              </ListItemIcon>
               <ListItemText primary="Modelos de Tabela" />
             </ListItem>
-            <ListItem button component={Link} to="/admin/tabelas/editable-table" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <TableChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Editable Table" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/tabelas/circuit-config" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <CircuitryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Circuit Config" />
+            <ListItem button component={Link} to="/admin/tabelas/configuracoes" sx={{ pl: 4 }}>
+              <ListItemText primary="Configurações de Circuitos" />
             </ListItem>
           </List>
         </Collapse>
 
-        {/* Submenu Etiquetas */}
-        <ListItem button onClick={handleClickEtiquetas}>
+        {/* Etiquetas */}
+        <ListItem button onClick={() => handleToggle("etiquetas")}>
           <ListItemIcon>
-            <InsertDriveFileIcon />
+            <BuildIcon />
           </ListItemIcon>
           <ListItemText primary="Etiquetas" />
-          {openEtiquetas ? <ExpandLess /> : <ExpandMore />}
+          {openCategories.etiquetas ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={openEtiquetas} timeout="auto" unmountOnExit>
+        <Collapse in={openCategories.etiquetas} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button component={Link} to="/admin/etiquetas/etiqueta-quadro" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <ConstructionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Quadros de Distribuição" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/etiquetas/etiqueta-arcondicionado" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <ConstructionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Ar Condicionado" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/etiquetas/etiqueta-alarme-incendio" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <FireExtinguisherIcon />
-              </ListItemIcon>
-              <ListItemText primary="Alarmes de Incêndio" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/etiquetas/etiquetas-predios" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <InsertDriveFileIcon />
-              </ListItemIcon>
-              <ListItemText primary="Etiquetas para Prédios" />
-            </ListItem>
-            <ListItem button component={Link} to="/admin/etiquetas/gerenciamento" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <ListAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="Gerenciamento de Etiquetas" />
-            </ListItem>
             <ListItem button component={Link} to="/admin/etiquetas/gerador-etiquetas" sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <AddBoxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Gerador de Etiquetas" />
+              <ListItemText primary="Gerar Etiquetas" />
             </ListItem>
           </List>
         </Collapse>
 
-        {/* Cadastro de Empresas */}
-        <ListItem button component={Link} to="/admin/cadastro/empresas">
+        {/* Personalização */}
+        <ListItem button onClick={() => handleToggle("personalizacao")}>
           <ListItemIcon>
-            <BusinessIcon />
+            <PaletteIcon />
           </ListItemIcon>
-          <ListItemText primary="Cadastro de Empresas" />
+          <ListItemText primary="Personalização" />
+          {openCategories.personalizacao ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openCategories.personalizacao} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button component={Link} to="/admin/customization/label-tools" sx={{ pl: 4 }}>
+              <ListItemText primary="Configuração de Logotipo" />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        {/* Chat de Suporte */}
+        <Divider sx={{ my: 2 }} />
+        <ListItem button component={Link} to="/admin/chat-suporte">
+          <ListItemIcon>
+            <ChatIcon />
+          </ListItemIcon>
+          <ListItemText primary="Chat de Suporte" />
         </ListItem>
 
-        {/* Cadastro de Clientes */}
-        <ListItem button component={Link} to="/admin/cadastro/clientes">
+        {/* Configurador de Cards */}
+        <ListItem button component={Link} to="/admin/cards/configurator">
           <ListItemIcon>
-            <BusinessIcon />
+            <BuildIcon />
           </ListItemIcon>
-          <ListItemText primary="Cadastro de Clientes" />
+          <ListItemText primary="Configurar Cards" />
         </ListItem>
 
-        {/* Gerenciamento de Clientes */}
-        <ListItem button component={Link} to="/admin/cadastro/gerenciar-clientes">
+        {/* Quadro de Distribuição */}
+        <ListItem button component={Link} to="/admin/icone/quadro-distribuicao">
           <ListItemIcon>
-            <BusinessIcon />
+            <BuildIcon />
           </ListItemIcon>
-          <ListItemText primary="Gerenciar Clientes" />
-        </ListItem>
-
-        {/* Sobre */}
-        <ListItem button component={Link} to="/admin/sobre">
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sobre" />
+          <ListItemText primary="Quadro de Distribuição" />
         </ListItem>
       </List>
     </Drawer>

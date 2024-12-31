@@ -1,0 +1,24 @@
+.icon-selector-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .icon-list {
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .drop-area {
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
